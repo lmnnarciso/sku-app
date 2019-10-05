@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, \
     PermissionsMixin
 from django.conf import settings
+import uuid
 
 
 class UserManager(BaseUserManager):
@@ -39,12 +40,37 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Supplier(models.Model):
     """Supplier object"""
-    supplier_email = models.EmailField(max_length=255, unique=True)
-    supplier_name = models.CharField(max_length=255)
-    supplier_address = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
+    address = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.supplier_email
+        return self.email
+
+
+class ProductCategory(models.Model):
+    """Product category object"""
+    name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+
+    def __repr__(self):
+        return self.name
+
+
+class ProductStockLevel(models.Model):
+    quantity = models.IntegerField()
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE
+    )
+    product_restocking = models.DateTimeField()
+
+
+class Product(models.Model):
+    """Product object"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+
 
 # class ProductSuppliers(models.Model):
 #     """Product suppliers object"""

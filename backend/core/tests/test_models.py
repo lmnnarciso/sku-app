@@ -8,6 +8,13 @@ def sample_user(email='test@test.com', password='test123'):
     """Create a sample user"""
     return get_user_model().objects.create_user(email, password)
 
+def sample_product_category(name="categorytest", description="new description"):
+    """Create a sample product category"""
+    product_category = models.ProductCategory.objects.all()
+    return product_category.create(name, description)
+
+# def sample_product_stock():
+
 
 class ModelTests(TestCase):
     """Test model"""
@@ -49,12 +56,22 @@ class ModelTests(TestCase):
     def test_create_new_supplier(self):
         """Test creating a new supplier"""
         supplier = models.Supplier.objects.create(
-            supplier_email="new_supplier@supplier.test",
-            supplier_name="Supplier test",
-            supplier_address="Address new #1"
+            email="new_supplier@supplier.test",
+            name="Supplier test",
+            address="Address new #1"
         )
 
-        self.assertEqual(str(supplier), supplier.supplier_email)
+        self.assertEqual(str(supplier), supplier.email)
+
+    def test_create_new_product_category(self):
+        """Test creating a new product category"""
+        product_category = models.ProductCategory.objects.create(
+            name="new product",
+            description="test description"
+        )
+        
+        self.assertEqual(repr(product_category), product_category.name)
+
 
     # def test_tag_str(self):
     #     """Test the tag string representation"""
