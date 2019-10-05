@@ -51,25 +51,36 @@ class Supplier(models.Model):
 class ProductCategory(models.Model):
     """Product category object"""
     name = models.CharField(max_length=255)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, default='N/A')
 
     def __repr__(self):
         return self.name
 
 
-class ProductStockLevel(models.Model):
-    quantity = models.IntegerField()
-    product = models.ForeignKey(
-        'Product',
-        on_delete=models.CASCADE
-    )
-    product_restocking = models.DateTimeField()
+# class ProductStockLevel(models.Model):
+#     quantity = models.IntegerField()
+#     product = models.ForeignKey(
+#         'Product',
+#         on_delete=models.CASCADE
+#     )
+#     product_restocking = models.DateTimeField()
 
 
 class Product(models.Model):
     """Product object"""
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    product_category = models.ForeignKey(
+        'ProductCategory',
+        on_delete=models.CASCADE
+    )
     name = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, default='N/A')
+    unit_price = models.IntegerField()
+    quantity = models.IntegerField()
+
+    def __str__(self):
+        return str(self.id)
+
 
 
 # class ProductSuppliers(models.Model):
