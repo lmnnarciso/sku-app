@@ -35,3 +35,23 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
     USERNAME_FIELD = 'email'
+
+
+class Supplier(models.Model):
+    """Supplier object"""
+    supplier_email = models.EmailField(max_length=255, unique=True)
+    supplier_name = models.CharField(max_length=255)
+    supplier_address = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.supplier_email
+
+# class ProductSuppliers(models.Model):
+#     """Product suppliers object"""
+
+
+# class Product(models.Model):
+#     """Product model"""
+#     product_name = models.CharField(max_length=255)
+#     product_description = models.CharField(max_length=255)
+    

@@ -46,6 +46,16 @@ class ModelTests(TestCase):
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
 
+    def test_create_new_supplier(self):
+        """Test creating a new supplier"""
+        supplier = models.Supplier.objects.create(
+            supplier_email="new_supplier@supplier.test",
+            supplier_name="Supplier test",
+            supplier_address="Address new #1"
+        )
+
+        self.assertEqual(str(supplier), supplier.supplier_email)
+
     # def test_tag_str(self):
     #     """Test the tag string representation"""
     #     tag = models.Tag.objects.create(
