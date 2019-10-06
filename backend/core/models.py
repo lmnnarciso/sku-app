@@ -57,13 +57,13 @@ class ProductCategory(models.Model):
         return self.name
 
 
-# class ProductStockLevel(models.Model):
-#     quantity = models.IntegerField()
-#     product = models.ForeignKey(
-#         'Product',
-#         on_delete=models.CASCADE
-#     )
-#     product_restocking = models.DateTimeField()
+class ProductStockLevel(models.Model):
+    quantity_level = models.IntegerField(default=1)
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE
+    )
+    product_restocking = models.DateTimeField()
 
 
 class Product(models.Model):
@@ -83,8 +83,20 @@ class Product(models.Model):
 
 
 
-# class ProductSuppliers(models.Model):
-#     """Product suppliers object"""
+class ProductSuppliers(models.Model):
+    """Product suppliers object"""
+    product = models.ForeignKey(
+        'Product',
+        on_delete=models.CASCADE
+    )
+    supplier = models.ForeignKey(
+        'SUpplier',
+        on_delete=models.CASCADE
+    )
+    date_to_supply = models.DateTimeField()
+    quantity_supply = models.IntegerField()
+    price = models.IntegerField()
+
 
 
 # class Product(models.Model):
