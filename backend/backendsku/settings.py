@@ -126,4 +126,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+REST_FRAMEWORK = {
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+}
+
 AUTH_USER_MODEL = 'core.User'
