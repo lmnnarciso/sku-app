@@ -16,7 +16,7 @@ class ProductCategoryListView(APIView):
 
     def post(self, request):
         product_category = request.data.get('product_category')
-        print(product_category)
+        # print(product_category)
         serializer = serializers.ProductCategorySerializer(data=product_category)
         if serializer.is_valid(raise_exception=True):
             product_category_saved = serializer.save()

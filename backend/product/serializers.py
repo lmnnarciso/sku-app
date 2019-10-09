@@ -9,7 +9,7 @@ class ProductCategorySerializer(serializers.Serializer):
 
     class Meta:
         model = ProductCategory
-        fields = ['id', 'name', 'description']
+        fields = ['name', 'description']
         
     def create(self, validated_data):
         """
@@ -29,7 +29,7 @@ class ProductCategorySerializer(serializers.Serializer):
     # def patch(self, instance, validated_data):
 
     
-class ProductSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.Serializer):
     name = serializers.CharField()
     description = serializers.CharField()
     product_category = ProductCategorySerializer(many=True)
