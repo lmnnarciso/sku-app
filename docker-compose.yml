@@ -25,3 +25,17 @@ services:
       - POSTGRES_DB=app
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=supersecretpassword
+  web:
+    build: ./frontend
+    environment:
+      env_file: ./frontend/.env
+      NODE_ENV: development
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend/src:/usr/src/app/src
+      - ./frontend/public:/usr/src/app/public
+    links:
+      - app  
