@@ -54,7 +54,7 @@ class PrivatProductSupplierApiTests(TestCase):
 
         Product.objects.create(product_category_id=test_key_prodcat.get('id'), name='Test Product Category #2', description='Test Description #1', unit_price=12, quantity=15)
         test_key_product = Product.objects.values()[0]
-        # print(test_key_product.get('id'))
+
         payload = {
             # 'supplier':{
                 'product_id': test_key_product.get('id'),
@@ -64,7 +64,7 @@ class PrivatProductSupplierApiTests(TestCase):
         }
         
         res = self.client.post(PRODUCT_STOCK_ADD_URL, payload)
-        # print(payload)
+        
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
 
