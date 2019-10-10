@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core.models import Product, ProductCategory, ProductSupplier
+from core.models import Product, ProductCategory, ProductSupplier, ProductStockLevel
 
 
 class ProductCategorySerializer(serializers.Serializer):
@@ -66,7 +66,7 @@ class ProductSerializer(serializers.Serializer):
 
 class ProductSupplierSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
-    product_id = serializers.IntegerField()
+    product_id = serializers.UUIDField()
     supplier_id = serializers.IntegerField()
     date_to_supply = serializers.DateTimeField()
     quantity_supply = serializers.IntegerField()
@@ -93,5 +93,35 @@ class ProductSupplierSerializer(serializers.Serializer):
         instance.date_to_supply = validated_data.get('date_to_supply', instance.date_to_supply)
         instance.quantity_supply = validated_data.get('quantity_supply', instance.quantity_supply)
         instance.price = validated_data.get('price', instance.price)
+        instance.save()
+        return instance
+
+
+class ProductStockLevelSerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
+    quantity_level = serializers.IntegerField()
+    product_id = serializers.UUIDField()
+    product_restocking = serializers.DateTimeField()
+    
+    class Meta:
+        model = ProductStockLevel
+        fields = ['id', 'quantity_level', 'product_id', 'product_restocking']
+        # order_by = ['-name']
+
+    def create(self, validated_data):
+        """
+        Create and return a new `Product Stock Level` instance, given the validated data.
+        """
+        # validated_data['migz'] = 'migs'
+        # print(validated_data)
+        return ProductStockLevel.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        """
+        Update and return an existing `Product` instance, given the validated data.
+        """
+        instance.quantity_level = validated_data.get('quantity_level', instance.quantity_level)
+        instance.product_id = validated_data.get('product_id', instance.product_id)
+        instance.product_restocking = validated_data.get('product_restocking', instance.product_restocking)
         instance.save()
         return instance
