@@ -14,8 +14,8 @@ PRODUCTS_LIST_URL = reverse('product:product_add')
 # PRODUCT_DETAIL_URL = reverse('product:product_detail')
 
 
-class PrivateProductCategoriesApiTests(TestCase):
-    """Test the authorized user tags API"""
+class PrivateProductsApiTests(TestCase):
+    """Test the authorized user products API"""
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(
@@ -26,9 +26,12 @@ class PrivateProductCategoriesApiTests(TestCase):
         self.client.force_authenticate(self.user)
 
     def test_retrieve_product_categories(self):
-        """Test retrieving tags"""
+        """Test retrieving products"""
         # test_key = ProductCategory.objects. 
-        Product.objects.create(product_category_id=1, name='Test Product Category #1', description='Test Description #1', unit_price=12, quantity=15)
+        ProductCategory.objects.create(name="test name", description="new name")
+        test_key = ProductCategory.objects.values()[0]
+        print(test_key.get('id'))
+        Product.objects.create(product_category_id=test_key.get('id'), name='Test Product Category #1', description='Test Description #1', unit_price=12, quantity=15)
         # ProductCategory.objects.create(name='Test Product Category #2', description='Test Description #2')
 
         res = self.client.get(PRODUCTS_LIST_URL)

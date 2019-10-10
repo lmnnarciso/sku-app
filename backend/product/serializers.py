@@ -15,7 +15,7 @@ class ProductCategorySerializer(serializers.Serializer):
         """
         Create and return a new `Product Category` instance, given the validated data.
         """
-        print(validated_data)
+        # print(validated_data)
         return ProductCategory.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
@@ -40,13 +40,13 @@ class ProductSerializer(serializers.Serializer):
     class Meta:
         model = Product
         fields = ['name', 'description', 'product_category', 'unit_price', 'quantity']
-        order_by = ['-name']
+        # order_by = ['-name']
 
     def create(self, validated_data):
         """
         Create and return a new `Product Category` instance, given the validated data.
         """
-        validated_data['migz'] = 'migs'
+        # validated_data['migz'] = 'migs'
         return Product.objects.create(**validated_data)
 
     def update(self, instance, validated_data):

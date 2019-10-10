@@ -26,7 +26,7 @@ class ProductCategoryListView(APIView):
         product_category = ProductCategory.objects.all()
         serializer = serializers.ProductCategorySerializer(data=product_category, many=True)
         serializer.is_valid()
-        print(Response(serializer.data))
+        # print(Response(serializer.data))
         return Response(serializer.data)
 
 class ProductCategoryDetailView(APIView):
@@ -58,9 +58,11 @@ class ProductCategoryDetailView(APIView):
 
 class ProductView(APIView):
     """for Product API requests"""
+    
+    serializer_class = serializers.ProductSerializer
     def post(self, request):
         product = request.data.get('product')
-        print(product)
+        # print(product)
         serializer = serializers.ProductSerializer(data=product)
         if serializer.is_valid(raise_exception=True):
             product_category_saved = serializer.save()
@@ -68,7 +70,7 @@ class ProductView(APIView):
 
     def get(self, request):
         product = Product.objects.all()
-        serializer = serializers.ProductSerializer(data=product, many=True)
+        serializer = serializers.ProductSerializer(data=product, many=False)
         serializer.is_valid()
         return JsonResponse(serializer.data, safe=False)
 
