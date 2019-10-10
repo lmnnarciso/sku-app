@@ -9,7 +9,7 @@ class ProductCategorySerializer(serializers.Serializer):
 
     class Meta:
         model = ProductCategory
-        fields = ['name', 'description']
+        fields = ['id', 'name', 'description']
         
     def create(self, validated_data):
         """
@@ -33,7 +33,7 @@ class ProductCategorySerializer(serializers.Serializer):
 class ProductSerializer(serializers.Serializer):
     name = serializers.CharField()
     description = serializers.CharField()
-    product_category = ProductCategorySerializer(many=True)
+    product_category = ProductCategorySerializer(many=False)
     unit_price = serializers.IntegerField()
     quantity = serializers.IntegerField()
     
@@ -44,14 +44,15 @@ class ProductSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         """
-        Create and return a new `Product Category` instance, given the validated data.
+        Create and return a new `Product` instance, given the validated data.
         """
         # validated_data['migz'] = 'migs'
+        print(validated_data)
         return Product.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         """
-        Update and return an existing `Product Category` instance, given the validated data.
+        Update and return an existing `Product` instance, given the validated data.
         """
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)

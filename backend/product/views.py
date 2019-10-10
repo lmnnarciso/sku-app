@@ -60,41 +60,54 @@ class ProductView(APIView):
     """for Product API requests"""
     
     serializer_class = serializers.ProductSerializer
-    def post(self, request):
+
+
+    def get_queryset(self): #this method is called inside of get
+        queryset = self.queryset.filter()
+        return queryset
+
+    def post(self, request, format=None):
+        print(request.data)
         product = request.data.get('product')
         # print(product)
-        serializer = serializers.ProductSerializer(data=product)
+        serializer = serializers.ProductSerializer(data=request.data.get('product'))
+        # print(serializer.is_valid)
         if serializer.is_valid(raise_exception=True):
-            product_category_saved = serializer.save()
-        return Response({"success": "Product '{}' created successfully".format(product_category_saved.name)})
+            product_saved = serializer.save()
+            print(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print('aw')
+        print(serializer.data)
+        # return Response({"success": "Product '{}' created successfully".format(product_saved.name)})
 
     def get(self, request):
         product = Product.objects.all()
         serializer = serializers.ProductSerializer(data=product, many=False)
         serializer.is_valid()
+        # print(serializer)
         return JsonResponse(serializer.data, safe=False)
 
-# class ProductDetailView(APIView):
-#     def get_object(self, pk):
-#         try:
-#             return Product.objects.get(pk=pk)
-#         except Product.DoesNotExist:
-#             raise Http404
+class ProductDetailView(APIView):
+    def get_object(self, pk):
+        try:
+            return Product.objects.get(pk=pk)
+        except Product.DoesNotExist:
+            raise Http404
 
-#     def get(self, request, pk, format=None):
-#         product = self.get_object(pk)
-#         serializer = serializers.ProductSerializer(product)
-#         return Response(serializer.data)
+    def get(self, request, pk, format=None):
+        product = self.get_object(pk)
+        serializer = serializers.ProductSerializer(product)
+        return Response(serializer.data)
 
-#     def put(self, request, pk, format=None):
-#         product = self.get_object(pk)
-#         serializer = serializers.ProductSerializer(product, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def put(self, request, pk, format=None):
+        product = self.get_object(pk)
+        serializer = serializers.ProductSerializer(product, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-#     def delete(self, request, pk, format=None):
-#         product = self.get_object(pk)
-#         product.delete()
-#         return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, pk, format=None):
+        product = self.get_object(pk)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

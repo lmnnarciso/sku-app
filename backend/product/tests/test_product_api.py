@@ -9,8 +9,8 @@ from core.models import Product, ProductCategory
 
 from product.serializers import ProductCategorySerializer, ProductSerializer
 
-PRODUCT_ADD_URL = reverse('product:product')
-PRODUCTS_LIST_URL = reverse('product:product_add')
+PRODUCT_ADD_URL = reverse('product:product_add')
+PRODUCTS_LIST_URL = reverse('product:product')
 # PRODUCT_DETAIL_URL = reverse('product:product_detail')
 
 
@@ -30,30 +30,43 @@ class PrivateProductsApiTests(TestCase):
         # test_key = ProductCategory.objects. 
         ProductCategory.objects.create(name="test name", description="new name")
         test_key = ProductCategory.objects.values()[0]
-        print(test_key.get('id'))
+        # print(test_key.get('id'))
         Product.objects.create(product_category_id=test_key.get('id'), name='Test Product Category #1', description='Test Description #1', unit_price=12, quantity=15)
-        # ProductCategory.objects.create(name='Test Product Category #2', description='Test Description #2')
+        Product.objects.create(product_category_id=test_key.get('id'), name='Test Product Category #2', description='Test Description #1', unit_price=12, quantity=15)
 
+        # product_categories = ProductCategory.objects.all().order_by('-name')
+        # serializer = ProductCategorySerializer(product_categories, many=True)
         res = self.client.get(PRODUCTS_LIST_URL)
 
         products = Product.objects.all().order_by('-name')
         serializer = ProductSerializer(products, many=True)
-
+        # print(dict(serializer.data))
+        # print(res.data)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         # self.assertDictEqual(dict(res.data), dict(serializer.data))
     
-    # def test_create_product_category_successful(self):
-    #     """Test creating a new product category"""
-    #     payload = {
-    #         'product_category':{
-    #             'name': 'Test Tag',
-    #             'description': 'Test description'
-    #         }
-    #     }
+    def test_create_product_successful(self):
+        """Test creating a new product category"""
         
-    #     res = self.client.post(PRODUCT_CATEGORY_ADD_URL, payload)
+        ProductCategory.objects.create(name="test name", description="new name")
+        test_key = ProductCategory.objects.values()[0]
+    # print()
+        payload = {
+            'product':{
+                'name': 'Test Tag',
+                'product_category': test_key,
+                'unit_price': 100,
+                'quantity': 12,
+                'description': 'Test description'
+            }
+        }
 
-    #     self.assertEqual(res.status_code, status.HTTP_200_OK)
+        
+        # serializer = ProductCategorySerializer(product_categories, many=True)
+        
+        res = self.client.post(PRODUCT_ADD_URL, payload)
+        print(res)
+        # self.assertEqual(res.status_code, status.HTTP_200_OK)
 
     # def test_create_tag_invalid(self):
     #     """Test creating a new product category with invalid payload"""

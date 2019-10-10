@@ -53,6 +53,8 @@ class ProductCategory(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255, default='N/A')
 
+    # class Meta:
+    #     name 
     def __repr__(self):
         return self.name
 
