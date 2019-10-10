@@ -4,12 +4,13 @@ from core.models import Product, ProductCategory
 
 
 class ProductCategorySerializer(serializers.Serializer):
+    id = serializers.IntegerField(required=False)
     name = serializers.CharField()
     description = serializers.CharField()
 
     class Meta:
         model = ProductCategory
-        fields = ['id', 'name', 'description']
+        fields = ('id', 'name', 'description')
         
     def create(self, validated_data):
         """
@@ -33,13 +34,13 @@ class ProductCategorySerializer(serializers.Serializer):
 class ProductSerializer(serializers.Serializer):
     name = serializers.CharField()
     description = serializers.CharField()
-    product_category = ProductCategorySerializer(many=False)
+    product_category_id = serializers.IntegerField()
     unit_price = serializers.IntegerField()
     quantity = serializers.IntegerField()
     
     class Meta:
         model = Product
-        fields = ['name', 'description', 'product_category', 'unit_price', 'quantity']
+        fields = ['name', 'description', 'product_category_id', 'unit_price', 'quantity']
         # order_by = ['-name']
 
     def create(self, validated_data):
@@ -47,7 +48,7 @@ class ProductSerializer(serializers.Serializer):
         Create and return a new `Product` instance, given the validated data.
         """
         # validated_data['migz'] = 'migs'
-        print(validated_data)
+        # print(validated_data)
         return Product.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
@@ -56,7 +57,7 @@ class ProductSerializer(serializers.Serializer):
         """
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
-        instance.product_category = validated_data.get('product_category', instance.product_category)
+        instance.product_category = validated_data.get('product_category_id', instance.product_category)
         instance.unit_price = validated_data.get('unit_price', instance.unit_price)
         instance.quantity = validated_data.get('quantity', instance.quantity)
         instance.save()

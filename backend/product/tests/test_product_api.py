@@ -40,8 +40,7 @@ class PrivateProductsApiTests(TestCase):
 
         products = Product.objects.all().order_by('-name')
         serializer = ProductSerializer(products, many=True)
-        # print(dict(serializer.data))
-        # print(res.data)
+
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         # self.assertDictEqual(dict(res.data), dict(serializer.data))
     
@@ -50,23 +49,17 @@ class PrivateProductsApiTests(TestCase):
         
         ProductCategory.objects.create(name="test name", description="new name")
         test_key = ProductCategory.objects.values()[0]
-    # print()
+        # print(test_key)
         payload = {
-            'product':{
-                'name': 'Test Tag',
-                'product_category': test_key,
-                'unit_price': 100,
-                'quantity': 12,
-                'description': 'Test description'
-            }
+            'name': 'Test Tag',
+            'product_category_id': test_key.get('id'),
+            'unit_price': 100,
+            'quantity': 12,
+            'description': 'Test description'
         }
-
-        
-        # serializer = ProductCategorySerializer(product_categories, many=True)
         
         res = self.client.post(PRODUCT_ADD_URL, payload)
-        print(res)
-        # self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
     # def test_create_tag_invalid(self):
     #     """Test creating a new product category with invalid payload"""
