@@ -85,7 +85,7 @@ class Product(models.Model):
 
 
 
-class ProductSuppliers(models.Model):
+class ProductSupplier(models.Model):
     """Product suppliers object"""
     product = models.ForeignKey(
         'Product',
