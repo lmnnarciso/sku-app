@@ -92,7 +92,7 @@ class ProductSuppliers(models.Model):
         on_delete=models.CASCADE
     )
     supplier = models.ForeignKey(
-        'SUpplier',
+        'Supplier',
         on_delete=models.CASCADE
     )
     date_to_supply = models.DateTimeField()
