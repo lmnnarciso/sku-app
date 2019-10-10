@@ -6,7 +6,7 @@ from rest_framework.parsers import JSONParser
 
 from django.http import JsonResponse
 
-from core.models import ProductCategory, Product
+from core.models import ProductCategory, Product, ProductSupplier, Supplier
 from product import serializers
 
 
@@ -123,3 +123,27 @@ class ProductDetailView(APIView):
         product = self.get_object(pk)
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class ProductSupplierListView(APIView):
+    # serializer_class = serializers.ProductCategorySerializer
+    # authentication_classes = (TokenAuthentication,)
+    # permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        product_supplier = request.data
+        # print(product_category)
+        serializer = serializers.ProductSupplierSerializer(data=product_supplier)
+        if serializer.is_valid(raise_exception=True):
+            # print('aweaee')
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+    def get(self, request):
+        
+        product_supplier = ProductSupplier.objects.all()
+        serializer = serializers.ProductSupplierSerializer(data=product_supplier, many=True)
+        serializer.is_valid()
+
+        return Response(serializer.data, status=200)

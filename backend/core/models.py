@@ -99,10 +99,3 @@ class ProductSupplier(models.Model):
     quantity_supply = models.IntegerField()
     price = models.IntegerField()
 
-
-
-# class Product(models.Model):
-#     """Product model"""
-#     product_name = models.CharField(max_length=255)
-#     product_description = models.CharField(max_length=255)
-    
