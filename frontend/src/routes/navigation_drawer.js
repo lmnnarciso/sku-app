@@ -89,6 +89,7 @@ export default function PersistentDrawerLeft(props) {
     setOpen(false);
   };
 
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -129,22 +130,26 @@ export default function PersistentDrawerLeft(props) {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          {[{route:'/product_category_list',name:'Product Category'}, 
+          {route:'/supplier_list',name:'Supplier'}, 
+          {route:'/product_list',name:'Product'}, 
+          {route:'/product_supplier_list',name:'Product Supplier'}, 
+          {route:'/product_stock_level_list',name:'Product Stock Level'}].map((item, index) => (
+            <ListItem button key={item.name}>
+              {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
+              <ListItemText primary={item.name} />
             </ListItem>
           ))}
         </List>
         <Divider />
-        <List>
+        {/* <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
-        </List>
+        </List> */}
       </Drawer>
       <main
         className={clsx(classes.content, {

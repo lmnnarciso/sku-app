@@ -25,7 +25,7 @@ SECRET_KEY = 'zd$m0w(zz8ebceoh)@tv2&g$0@p&bi2*y_h6e%ojot(l09i!ju'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,18 +39,21 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
     'core',
     'user',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 ]
 
 ROOT_URLCONF = 'backendsku.urls'
@@ -120,6 +123,34 @@ USE_L10N = True
 
 USE_TZ = True
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+# CORS_ORIGIN_WHITELIST = (
+#     'google.com',
+#     'http://localhost:3000',
+#     'http://127.0.0.1:3001',
+# )
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/

@@ -18,12 +18,13 @@ class ProductCategoryListView(APIView):
     # permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        product_category = request.data.get('product_category')
+        product_category = request.data
         serializer = serializers.ProductCategorySerializer(data=product_category)
         
         if serializer.is_valid(raise_exception=True):
             product_category_saved = serializer.save()
-        return Response({"success": "Product Category '{}' created successfully".format(product_category_saved.name)})
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
     def get(self, request):
         product_category = list(ProductCategory.objects.values())
@@ -102,7 +103,7 @@ class ProductView(APIView):
         if serializer.is_valid(raise_exception=True):
             serializer.save()
             # print(serializer.data)
-            return JsonResponse(serializer.data, status=201)
+            return Response(serializer.data, status=201)
         
         return Response(serializer.errors, status=400)
 

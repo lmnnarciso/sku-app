@@ -46,15 +46,15 @@ class PrivateProductCategoriesApiTests(TestCase):
     def test_create_product_category_successful(self):
         """Test creating a new product category"""
         payload = {
-            'product_category':{
+            # 'product_category':{
                 'name': 'Test Tag',
                 'description': 'Test description'
-            }
+            # }
         }
         
         res = self.client.post(PRODUCT_CATEGORY_ADD_URL, payload)
 
-        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
     def test_get_product_category_detail(self):
         """Test viewing a product category detail"""

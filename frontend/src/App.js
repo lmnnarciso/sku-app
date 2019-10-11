@@ -23,6 +23,7 @@ class App extends Component {
           <PrivateRoute component={Dashboard} path="/dashboard" exact />
           <PrivateRoute component={ProductCategoryList} path="/product_category_list" exact />
           <PrivateRoute component={ProductCategoryManagement} path="/product_category_list/add" exact />
+          <PrivateRoute component={ProductCategoryManagement} path="/product_category_list/:id" exact />
         </Switch>
       </BrowserRouter>
     );
