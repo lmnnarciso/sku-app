@@ -92,9 +92,9 @@ class ProductView(APIView):
     """for Product API requests"""
     # serializer_class = serializers.ProductSerializer
 
-    def get_queryset(self): #this method is called inside of get
-        queryset = self.queryset.filter()
-        return queryset
+    # def get_queryset(self): #this method is called inside of get
+    #     queryset = self.queryset.filter()
+    #     return queryset
 
     def post(self, request, format=None):
         product = request.data
@@ -108,11 +108,11 @@ class ProductView(APIView):
         return Response(serializer.errors, status=400)
 
     def get(self, request):
-        product = Product.objects.all()
-        serializer = serializers.ProductSerializer(data=product, many=False)
-        serializer.is_valid()
-        # print(serializer)
-        return JsonResponse(serializer.data, safe=False)
+        product = list(Product.objects.values())
+        serializer = serializers.ProductSerializer(data=product, many=True)
+        if serializer.is_valid(raise_exception=True):
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)
 
     
 

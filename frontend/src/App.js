@@ -13,6 +13,8 @@ import ProductCategoryList from './components/product_category/product_category_
 import ProductCategoryManagement from './components/product_category/product_category_management';
 import SupplierList from './components/supplier/supplier_list';
 import SupplierManagement from './components/supplier/supplier_management';
+import ProductList from './components/product/product_list';
+import ProductManagement from './components/product/product_management';
 
 class App extends Component {
 
@@ -29,6 +31,9 @@ class App extends Component {
           <PrivateRoute component={SupplierList} path="/supplier_list" exact />
           <PrivateRoute component={SupplierManagement} path="/supplier_list/add" exact />
           <PrivateRoute component={SupplierManagement} path="/supplier_list/:id" exact />
+          <PrivateRoute component={ProductList} path="/product_list" exact />
+          <PrivateRoute component={ProductManagement} path="/product_list/add" exact />
+          <PrivateRoute component={ProductManagement} path="/product_list/:id" exact />
         </Switch>
       </BrowserRouter>
     );

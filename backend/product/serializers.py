@@ -32,6 +32,7 @@ class ProductCategorySerializer(serializers.Serializer):
     # def patch(self, instance, validated_data):
     
 class ProductSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField()
     name = serializers.CharField()
     description = serializers.CharField()
     product_category_id = serializers.IntegerField()
@@ -40,7 +41,7 @@ class ProductSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Product
-        fields = ['name', 'description', 'product_category_id', 'unit_price', 'quantity']
+        fields = ['id', 'name', 'description', 'product_category_id', 'unit_price', 'quantity']
         # order_by = ['-name']
 
     def create(self, validated_data):
@@ -57,7 +58,7 @@ class ProductSerializer(serializers.ModelSerializer):
         """
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
-        instance.product_category = validated_data.get('product_category_id', instance.product_category)
+        instance.product_category_id = validated_data.get('product_category_id', instance.product_category_id)
         instance.unit_price = validated_data.get('unit_price', instance.unit_price)
         instance.quantity = validated_data.get('quantity', instance.quantity)
         instance.save()

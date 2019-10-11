@@ -39,8 +39,9 @@ class PrivateProductsApiTests(TestCase):
         res = self.client.get(PRODUCTS_LIST_URL)
 
         products = Product.objects.all().order_by('-name')
-        serializer = ProductSerializer(products, many=True)
+        serializer = ProductSerializer(products, many=False)
 
+        # print(res.data)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         # self.assertDictEqual(dict(res.data), dict(serializer.data))
     
@@ -59,6 +60,8 @@ class PrivateProductsApiTests(TestCase):
         }
         
         res = self.client.post(PRODUCT_ADD_URL, payload)
+
+        # print(res.data)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
     def test_get_product_detail(self):
