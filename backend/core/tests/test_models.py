@@ -11,7 +11,6 @@ def sample_user(email='test@test.com', password='test123'):
 def sample_product_category(name="categorytest", description="new description"):
     """Create a sample product category"""
     # product_category = models.ProductCategory.objects.all()
-    print('awww' + models.ProductCategory.objects.create(name, description))
     return models.ProductCategory.objects.create(name, description)
 
 # def sample_product_stock():

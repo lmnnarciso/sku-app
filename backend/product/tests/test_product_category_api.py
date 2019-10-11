@@ -39,7 +39,7 @@ class PrivateProductCategoriesApiTests(TestCase):
         # print(PRODUCT_CATEGORIES_LIST_URL)
         product_categories = ProductCategory.objects.all()
         serializer = ProductCategorySerializer(data=product_categories, many=True)
-        
+
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         # self.assertDictEqual(dict(res.data), dict(serializer.data))
     
@@ -59,12 +59,46 @@ class PrivateProductCategoriesApiTests(TestCase):
     def test_get_product_category_detail(self):
         """Test viewing a product category detail"""
         ProductCategory.objects.create(name='Test Product Category #1', description='Test Description #1')
-        pk = ProductCategory.objects.values()[0].get('id')
+        ProductCategory.objects.create(name='Test Product Category #2', description='Test Description #1')
+        ProductCategory.objects.create(name='Test Product Category #3', description='Test Description #1')
+        pk = ProductCategory.objects.values()[1].get('id')
         # print(reverse('product:product_category_details', args=(pk,)))
         PRODUCT_CATEGORIES_DETAIL_URL = reverse('product:product_category_details', args=(pk,))
         res = self.client.get(PRODUCT_CATEGORIES_DETAIL_URL)
-        print(res.data)
+        # print(res.data)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
+        
+    def test_update_product_category_successful(self):
+        ProductCategory.objects.create(name='Test Product Category #1', description='Test Description #1')
+        ProductCategory.objects.create(name='Test Product Category #2', description='Test Description #1')
+        ProductCategory.objects.create(name='Test Product Category #3', description='Test Description #1')
+        pk = ProductCategory.objects.values()[1].get('id')
+        # print(reverse('product:product_category_details', args=(pk,)))
+        payload = {
+            # 'name': 'testtt12312321t',
+            'description': 'good lord'
+        }
+        PRODUCT_CATEGORIES_DETAIL_URL = reverse('product:product_category_edit', args=(pk,))
+        res = self.client.patch(PRODUCT_CATEGORIES_DETAIL_URL, payload)
+        # print(res.data)
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_update_product_category_deleted_successfully(self):
+        ProductCategory.objects.create(name='Test Product Category #1', description='Test Description #1')
+        ProductCategory.objects.create(name='Test Product Category #2', description='Test Description #1')
+        ProductCategory.objects.create(name='Test Product Category #3', description='Test Description #1')
+        pk = ProductCategory.objects.values()[1].get('id')
+        # print(reverse('product:product_category_details', args=(pk,)))
+        # payload = {
+        #     # 'name': 'testtt12312321t',
+        #     'description': 'good lord'
+        # }
+        PRODUCT_CATEGORIES_DETAIL_URL = reverse('product:product_category_delete', args=(pk,))
+        res = self.client.delete(PRODUCT_CATEGORIES_DETAIL_URL)
+        # print(ProductCategory.objects.values())
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+
+
     # def test_create_tag_invalid(self):
     #     """Test creating a new product category with invalid payload"""
     #     payload = {'name': 123}

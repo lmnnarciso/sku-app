@@ -16,22 +16,22 @@ class ProductCategorySerializer(serializers.Serializer):
         """
         Create and return a new `Product Category` instance, given the validated data.
         """
-        print(validated_data)
+        # print(validated_data)
         return ProductCategory.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         """
         Update and return an existing `Product Category` instance, given the validated data.
         """
+        print(instance)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
         instance.save()
         return instance
 
     # def patch(self, instance, validated_data):
-
     
-class ProductSerializer(serializers.Serializer):
+class ProductSerializer(serializers.ModelSerializer):
     name = serializers.CharField()
     description = serializers.CharField()
     product_category_id = serializers.IntegerField()

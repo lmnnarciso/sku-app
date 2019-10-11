@@ -89,3 +89,61 @@ class PrivatProductSupplierApiTests(TestCase):
         res = self.client.post(PRODUCT_SUPPLIER_ADD_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_get_product_detail(self):
+        """Test viewing a product detail"""
+        ProductCategory.objects.create(name='Test Product Category #1', description='Test Description #1')
+        ProductCategory.objects.create(name='Test Product Category #2', description='Test Description #1')
+        ProductCategory.objects.create(name='Test Product Category #3', description='Test Description #1')
+        test_key_prodcat = ProductCategory.objects.values()[1].get('id')
+        
+        Supplier.objects.create(name='Test Supplier #1', email='test@test.com', address='Test Address #1')
+        test_key_supplier = Supplier.objects.values()[0]
+
+        Product.objects.create(product_category_id=test_key_prodcat.get('id'), name='Test Product Category #2', description='Test Description #1', unit_price=12, quantity=15)
+        test_key_product = Product.objects.values()[0]
+
+        ProductSupplier.objects.create(product_id=test_key_product.get('id'), supplier_id=test_key_supplier.get('id'), date_to_supply=datetime.now(pytz.utc), quantity_supply=140, price = 1230)
+        
+        pk = ProductSupplier.objects.values()[0].get('id')
+
+        PRODUCT_SUPPLIER_DETAIL_URL = reverse('product:product_supplier_details', args=(pk,))
+        res = self.client.get(PRODUCTS_DETAIL_URL)
+        # print(res.data)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        
+    def test_update_product_successful(self):
+        """Test viewing a product detail"""
+        ProductCategory.objects.create(name='Test Product Category #1', description='Test Description #1')
+        ProductCategory.objects.create(name='Test Product Category #2', description='Test Description #1')
+        ProductCategory.objects.create(name='Test Product Category #3', description='Test Description #1')
+        test_key_prodcat = ProductCategory.objects.values()[1].get('id')
+        
+        Supplier.objects.create(name='Test Supplier #1', email='test@test.com', address='Test Address #1')
+        test_key_supplier = Supplier.objects.values()[0]
+
+        Product.objects.create(product_category_id=test_key_prodcat.get('id'), name='Test Product Category #2', description='Test Description #1', unit_price=12, quantity=15)
+        test_key_product = Product.objects.values()[0]
+
+        ProductSupplier.objects.create(product_id=test_key_product.get('id'), supplier_id=test_key_supplier.get('id'), date_to_supply=datetime.now(pytz.utc), quantity_supply=140, price = 1230)
+        
+        pk = ProductSupplier.objects.values()[0].get('id')
+
+        PRODUCT_SUPPLIER_DETAIL_URL = reverse('product:product_supplier_edit', args=(pk,))
+        res = self.client.get(PRODUCTS_DETAIL_URL)
+        # print(res.data)
+        self.assertEqual(res.status_code, status.HTTP_204_OK)
+
+    def test_update_product_deleted_successfully(self):
+        ProductCategory.objects.create(name='Test Product Category #1', description='Test Description #1')
+        ProductCategory.objects.create(name='Test Product Category #2', description='Test Description #1')
+        ProductCategory.objects.create(name='Test Product Category #3', description='Test Description #1')
+        test_key = ProductCategory.objects.values()[1].get('id')
+
+        Product.objects.create(product_category_id=test_key, name='Test Product Category #1', description='Test Description #124', unit_price=12, quantity=15)
+        pk = Product.objects.values()[0].get('id')
+
+        PRODUCT_DELETE_URL = reverse('product:product_delete', args=(pk,))
+        res = self.client.delete(PRODUCT_DELETE_URL)
+        print(Product.objects.values())
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
