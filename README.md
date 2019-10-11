@@ -3,7 +3,10 @@
 To run:
 1. docker-compose build
 2. docker-compose up
-3. Go to your localhost:3000
+3. docker-compose run app sh -c "python manage.py test"
+4. Go to your localhost:3000 for the UI
+
+no need to input Username and password in the login since there's no validation yet
 
 Done:
 1. CRUD for Product Category(front-end)
