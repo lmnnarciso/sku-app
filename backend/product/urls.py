@@ -22,5 +22,8 @@ urlpatterns = [
     path('product_supplier/detail/<int:pk>/', views.ProductSupplierDetailView.as_view(), name='product_supplier_delete'),
     path('product_stock/list/', views.ProductStockLevelView.as_view(), name='product_stock_list'),
     path('product_stock/add/', views.ProductStockLevelView.as_view(), name='product_stock_add'),
+    path('product_stock/detail/<int:pk>/', views.ProductStockLevelDetailView.as_view(), name='product_stock_details'),
+    path('product_stock/detail/<int:pk>/', views.ProductStockLevelDetailView.as_view(), name='product_stock_edit'),
+    path('product_stock/detail/<int:pk>/', views.ProductStockLevelDetailView.as_view(), name='product_stock_delete'),
     # path('product_category/list/', views.ProductCategoryView.as_view(), name='product_category_list'),
 ]

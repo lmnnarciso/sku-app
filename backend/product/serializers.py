@@ -23,7 +23,7 @@ class ProductCategorySerializer(serializers.Serializer):
         """
         Update and return an existing `Product Category` instance, given the validated data.
         """
-        print(instance)
+        # print(instance)
         instance.name = validated_data.get('name', instance.name)
         instance.description = validated_data.get('description', instance.description)
         instance.save()

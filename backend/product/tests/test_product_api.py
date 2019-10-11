@@ -70,7 +70,7 @@ class PrivateProductsApiTests(TestCase):
         
         Product.objects.create(product_category_id=test_key, name='Test Product Category #1', description='Test Description #1', unit_price=12, quantity=15)
         pk = Product.objects.values()[0].get('id')
-        print(Product.objects.values()[0])
+
         PRODUCTS_DETAIL_URL = reverse('product:product_details', args=(pk,))
         res = self.client.get(PRODUCTS_DETAIL_URL)
         # print(res.data)
@@ -105,7 +105,7 @@ class PrivateProductsApiTests(TestCase):
 
         PRODUCT_DELETE_URL = reverse('product:product_delete', args=(pk,))
         res = self.client.delete(PRODUCT_DELETE_URL)
-        print(Product.objects.values())
+        # print(Product.objects.values())
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
 
 

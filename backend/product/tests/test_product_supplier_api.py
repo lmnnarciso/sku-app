@@ -91,24 +91,25 @@ class PrivatProductSupplierApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
 
     def test_get_product_detail(self):
-        """Test viewing a product detail"""
+        """Test viewing a product supplier detail"""
         ProductCategory.objects.create(name='Test Product Category #1', description='Test Description #1')
         ProductCategory.objects.create(name='Test Product Category #2', description='Test Description #1')
         ProductCategory.objects.create(name='Test Product Category #3', description='Test Description #1')
         test_key_prodcat = ProductCategory.objects.values()[1].get('id')
         
         Supplier.objects.create(name='Test Supplier #1', email='test@test.com', address='Test Address #1')
-        test_key_supplier = Supplier.objects.values()[0]
+        test_key_supplier = Supplier.objects.values()[0].get('id')
 
-        Product.objects.create(product_category_id=test_key_prodcat.get('id'), name='Test Product Category #2', description='Test Description #1', unit_price=12, quantity=15)
-        test_key_product = Product.objects.values()[0]
+        Product.objects.create(product_category_id=test_key_prodcat, name='Test Product Category #2', description='Test Description #1', unit_price=12, quantity=15)
+        test_key_product = Product.objects.values()[0].get('id')
 
-        ProductSupplier.objects.create(product_id=test_key_product.get('id'), supplier_id=test_key_supplier.get('id'), date_to_supply=datetime.now(pytz.utc), quantity_supply=140, price = 1230)
+        ProductSupplier.objects.create(product_id=test_key_product, supplier_id=test_key_supplier, date_to_supply=datetime.now(pytz.utc), quantity_supply=140, price = 1230)
         
+        # print(ProductSupplier.objects.values())
         pk = ProductSupplier.objects.values()[0].get('id')
 
         PRODUCT_SUPPLIER_DETAIL_URL = reverse('product:product_supplier_details', args=(pk,))
-        res = self.client.get(PRODUCTS_DETAIL_URL)
+        res = self.client.get(PRODUCT_SUPPLIER_DETAIL_URL)
         # print(res.data)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         
@@ -120,19 +121,24 @@ class PrivatProductSupplierApiTests(TestCase):
         test_key_prodcat = ProductCategory.objects.values()[1].get('id')
         
         Supplier.objects.create(name='Test Supplier #1', email='test@test.com', address='Test Address #1')
-        test_key_supplier = Supplier.objects.values()[0]
+        test_key_supplier = Supplier.objects.values()[0].get('id')
 
-        Product.objects.create(product_category_id=test_key_prodcat.get('id'), name='Test Product Category #2', description='Test Description #1', unit_price=12, quantity=15)
-        test_key_product = Product.objects.values()[0]
+        Product.objects.create(product_category_id=test_key_prodcat, name='Test Product Category #2', description='Test Description #1', unit_price=12, quantity=15)
+        test_key_product = Product.objects.values()[0].get('id')
 
-        ProductSupplier.objects.create(product_id=test_key_product.get('id'), supplier_id=test_key_supplier.get('id'), date_to_supply=datetime.now(pytz.utc), quantity_supply=140, price = 1230)
+        ProductSupplier.objects.create(product_id=test_key_product, supplier_id=test_key_supplier, date_to_supply=datetime.now(pytz.utc), quantity_supply=140, price = 1230)
         
         pk = ProductSupplier.objects.values()[0].get('id')
 
+        payload = {
+            'quantity': 1000,
+            'price': 420
+        }
+
         PRODUCT_SUPPLIER_DETAIL_URL = reverse('product:product_supplier_edit', args=(pk,))
-        res = self.client.get(PRODUCTS_DETAIL_URL)
+        res = self.client.patch(PRODUCT_SUPPLIER_DETAIL_URL, payload)
         # print(res.data)
-        self.assertEqual(res.status_code, status.HTTP_204_OK)
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_update_product_deleted_successfully(self):
         ProductCategory.objects.create(name='Test Product Category #1', description='Test Description #1')
@@ -145,5 +151,5 @@ class PrivatProductSupplierApiTests(TestCase):
 
         PRODUCT_DELETE_URL = reverse('product:product_delete', args=(pk,))
         res = self.client.delete(PRODUCT_DELETE_URL)
-        print(Product.objects.values())
+        # print(Product.objects.values())
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)

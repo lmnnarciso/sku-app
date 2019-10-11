@@ -264,3 +264,55 @@ class ProductStockLevelView(APIView):
         serializer.is_valid()
 
         return Response(serializer.data, status=200)
+
+class ProductStockLevelDetailView(APIView):
+    # def get_object(self, pk):
+    #     try:
+    #         return Product.objects.get(pk=pk)
+    #     except Product.DoesNotExist:
+    #         raise Http404
+
+    # def get_queryset(self): #this method is called inside of get
+    #     queryset = self.queryset.filter()
+    #     return queryset
+
+    def get_object(self, pk):
+        # print(pk)
+        try:
+            return ProductStockLevel.objects.get(pk=pk)
+        except ProductCategory.DoesNotExist:
+            return HttpResponse(status=404)
+
+    def get(self, request, pk, format=None):
+        product_stock = self.get_object(pk)
+
+        data = ProductStockLevel.objects.filter(id=product_stock.id).values()[0]
+        serializer = serializers.ProductStockLevelSerializer(data=data)
+
+        if serializer.is_valid(raise_exception=True):
+            return Response(serializer.data, status=200)
+        return Response(serializer.errors, status=400)
+
+    def patch(self, request, *args, **kwargs):
+        product_stock = self.get_object(pk=kwargs['pk'])
+        serializer = serializers.ProductStockLevelSerializer(product_stock,
+                                                            data=request.data, 
+                                                            partial=True) # set partial=True to update a data partially
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=204)
+        return Response(data="wrong parameters", code=400)
+
+    def delete(self, request, pk, format=None):
+        product_stock = self.get_object(pk)
+        product_stock.delete()
+        return Response(status=204)
+
+        
+    def put(self, request, pk, format=None):
+        product_stock = self.get_object(pk)
+        serializer = serializers.ProductStockLevelSerializer(product_supplier, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
