@@ -28,8 +28,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function createData(id, product_category_id, name, description, unit_price, quantity) {
-  return { id, product_category_id, name, description, unit_price, quantity };
+function createData(id, product_category, name, description, unit_price, quantity) {
+  return { id, product_category, name, description, unit_price, quantity };
 }
 
 const rows = [
@@ -39,13 +39,14 @@ const rows = [
 ];
 const API_URL = 'http://127.0.0.1:8000/api'
 
-export default function SupplierList(props) {
+export default function ProductSupplierList(props) {
   const classes = useStyles();
   const [data, setData] = useState(rows)
-  const [productCategory, setProductCategory] = useState([])
+  const [product, setProduct] = useState([])
+  const [supplier, setSupplier] = useState([])
 
   let fetchList = () => {
-    axios.get(`${API_URL}/product/list/`)
+    axios.get(`${API_URL}/product/product_supplier/list/`)
       .then(function (response) {
         // handle success
         console.log(response)
@@ -60,24 +61,42 @@ export default function SupplierList(props) {
       });
   }
 
-  let fetchCategory = () => {
-    axios.get(`${API_URL}/product/product_category/list/`)
+  let fetchProduct = () => {
+    axios.get(`${API_URL}/product/product_supplier/list/`)
       .then(function (response) {
         // handle success
         console.log(response)
-        setProductCategory([...response.data])
+        setProduct([...response.data])
       })
       .catch(function (error) {
         // handle error
         console.log(error);
-        props.history.push('/product_list')
+        props.history.push('/product_supplier_list')
       })
       .finally(function () {
         // always executed
       });
   }
+
+  let fetchSupplier = () => {
+    axios.get(`${API_URL}/supplier/list/`)
+      .then(function (response) {
+        // handle success
+        console.log(response)
+        setSupplier([...response.data])
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+        props.history.push('/product_supplier_list')
+      })
+      .finally(function () {
+        // always executed
+      });
+  }
+
   useEffect(() => {
-    axios.get(`${API_URL}/product/list/`)
+    axios.get(`${API_URL}/product/product_supplier/list/`)
       .then(function (response) {
         // handle success
         console.log(response)
@@ -90,11 +109,12 @@ export default function SupplierList(props) {
       .finally(function () {
         // always executed
       });
-      fetchCategory()
+      fetchProduct();
+      fetchSupplier();
   }, []);
 
   let deleteItem = (id) => {
-    axios.delete(`${API_URL}/product/detail/${id}/`)
+    axios.delete(`${API_URL}/product_supplier/detail/${id}/`)
     .then(function (response) {
       console.log("successfully deleted")
       fetchList()
@@ -107,7 +127,7 @@ export default function SupplierList(props) {
   return (
       <>
     <Button variant="contained" color="primary" className={classes.button}>
-        <Link to="/product_list/add/">Add Product</Link>
+        <Link to="/product_supplier_list/add/">Add Product Supplier</Link>
     </Button>
     <Paper className={classes.root}>
     <Typography component="div">
@@ -117,24 +137,25 @@ export default function SupplierList(props) {
         <TableHead>
           <TableRow>
             <TableCell className="hidden-xs">ID</TableCell>
-            <TableCell align="right">Product Category</TableCell>
-            <TableCell align="right">Name</TableCell>
-            <TableCell align="right">Description</TableCell>
-            <TableCell align="right">Unit Price</TableCell>
-            <TableCell align="right">Quantity</TableCell>
+            <TableCell align="right">Product</TableCell>
+            <TableCell align="right">Supplier</TableCell>
+            <TableCell align="right">Date to Supply</TableCell>
+            <TableCell align="right">Quantity to Supply</TableCell>
+            <TableCell align="right">Price</TableCell>
             <TableCell align="right">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map(row => (
               <TableRow key={row.name}>
-                <Link to={`/product_list/${row.id}`}>
+                <Link to={`/product_supplier_list/${row.id}`}>
                     <TableCell component="th" scope="row">
                       {row.id}
                     </TableCell>
                 </Link>
-                <TableCell align="right">{productCategory.filter(prodItem => row.product_category_id === prodItem.id)[0] !== undefined ? productCategory.filter(prodItem => row.product_category_id === prodItem.id)[0].name : 'placeholder' }</TableCell>
-                <TableCell align="right">{row.name}</TableCell>
+                <></>
+                <TableCell align="right">{product.filter(prodItem => row.product_category_id === prodItem.id)[0] !== undefined ? product.filter(prodItem => row.product_category_id === prodItem.id)[0].name : 'placeholder' }</TableCell>
+                <TableCell align="right">{supplier.filter(prodItem => row.product_category_id === prodItem.id)[0] !== undefined ? supplier.filter(prodItem => row.product_category_id === prodItem.id)[0].name : 'placeholder' }</TableCell>
                 <TableCell align="right">{row.description}</TableCell>
                 <TableCell align="right">{row.unit_price}</TableCell>
                 <TableCell align="right">{row.quantity}</TableCell>

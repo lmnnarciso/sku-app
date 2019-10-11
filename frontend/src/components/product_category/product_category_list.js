@@ -111,7 +111,7 @@ export default function SimpleTable(props) {
                       {row.id}
                     </TableCell>
                 </Link>
-                <TableCell align="right">{row.name}</TableCell>DeleteForeverIcon
+                <TableCell align="right">{row.name}</TableCell>
                 <TableCell align="right">{row.description}</TableCell>
                 <TableCell align="right"><DeleteForeverIcon onClick={() => deleteItem(row.id)}/></TableCell>
               </TableRow>

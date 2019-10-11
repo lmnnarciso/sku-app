@@ -20,6 +20,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import {Link} from 'react-router-dom'
 
+import {logout, isLogin} from '../utils/utility'
 
 const drawerWidth = 240;
 
@@ -92,7 +93,13 @@ export default function PersistentDrawerLeft(props) {
     setOpen(false);
   };
 
-
+  const handleLogout = () => {
+      logout();
+      // this.setState({
+      //     isLogin: false
+      // })
+      props.history.push("/")
+  }
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -133,11 +140,13 @@ export default function PersistentDrawerLeft(props) {
         </div>
         <Divider />
         <List>
-          {[{route:'/product_category_list',name:'Product Category'}, 
-          {route:'/supplier_list',name:'Supplier'}, 
-          {route:'/product_list',name:'Product'}, 
-          {route:'/product_supplier_list',name:'Product Supplier'}, 
-          {route:'/product_stock_level_list',name:'Product Stock Level'}].map((item, index) => (
+          {[
+              {route:'/product_category_list',name:'Product Category'}, 
+              {route:'/supplier_list',name:'Supplier'}, 
+              {route:'/product_list',name:'Product'}, 
+              {route:'/product_supplier_list',name:'Product Supplier'}, 
+              // {route:'/product_stock_level_list',name:'Product Stock Level'}
+            ].map((item, index) => (
             <ListItem button key={item.name}>
               {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
               <Link to={item.route}>
@@ -147,6 +156,12 @@ export default function PersistentDrawerLeft(props) {
           ))}
         </List>
         <Divider />
+        <List>
+                    {/* <button onClick={()=> this.handleLogout()} type="button">Logout</button> */}
+          <ListItem button onClick={()=> this.handleLogout()} >
+            <ListItemText primary={'Logout'} />
+          </ListItem>
+        </List>
         {/* <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
             <ListItem button key={text}>
