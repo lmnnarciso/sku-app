@@ -11,6 +11,8 @@ import PublicRoute from './routes/PublicRoute';
 
 import ProductCategoryList from './components/product_category/product_category_list';
 import ProductCategoryManagement from './components/product_category/product_category_management';
+import SupplierList from './components/supplier/supplier_list';
+import SupplierManagement from './components/supplier/supplier_management';
 
 class App extends Component {
 
@@ -24,6 +26,9 @@ class App extends Component {
           <PrivateRoute component={ProductCategoryList} path="/product_category_list" exact />
           <PrivateRoute component={ProductCategoryManagement} path="/product_category_list/add" exact />
           <PrivateRoute component={ProductCategoryManagement} path="/product_category_list/:id" exact />
+          <PrivateRoute component={SupplierList} path="/supplier_list" exact />
+          <PrivateRoute component={SupplierManagement} path="/supplier_list/add" exact />
+          <PrivateRoute component={SupplierManagement} path="/supplier_list/:id" exact />
         </Switch>
       </BrowserRouter>
     );

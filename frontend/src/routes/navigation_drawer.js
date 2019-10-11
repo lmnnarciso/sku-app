@@ -13,10 +13,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+// import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+// import InboxIcon from '@material-ui/icons/MoveToInbox';
+// import MailIcon from '@material-ui/icons/Mail';
+
+import {Link} from 'react-router-dom'
+
 
 const drawerWidth = 240;
 
@@ -137,7 +140,9 @@ export default function PersistentDrawerLeft(props) {
           {route:'/product_stock_level_list',name:'Product Stock Level'}].map((item, index) => (
             <ListItem button key={item.name}>
               {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-              <ListItemText primary={item.name} />
+              <Link to={item.route}>
+                <ListItemText primary={item.name} />
+              </Link>
             </ListItem>
           ))}
         </List>
