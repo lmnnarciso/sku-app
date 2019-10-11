@@ -22,5 +22,9 @@ To do:
 3. User roles
 4. Automated database populating
 5. Automated superuser creation
-6. Refactor to follow DjangoRestFramework best practice
+6. Refactor to follow Django REST Framework best practices
 7. Refactor front-end code for reusable components
+8. Notifications
+9. Product Stock level UI
+10. Implement real-time updates
+11. Different user access
