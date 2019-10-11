@@ -26,7 +26,7 @@ class SupplierSerializer(serializers.Serializer):
         """
         instance.name = validated_data.get('name', instance.name)
         instance.email = validated_data.get('email', instance.email)
-        instance.address = validated_data.get('address', instance.description)
+        instance.address = validated_data.get('address', instance.address)
         instance.save()
         return instance
 

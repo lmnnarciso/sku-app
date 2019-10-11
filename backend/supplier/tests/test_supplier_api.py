@@ -51,3 +51,36 @@ class PrivatSuppliersApiTests(TestCase):
         res = self.client.post(SUPPLIER_ADD_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+
+    def test_get_supplier_detail(self):
+        """Test viewing a supplier detail"""
+        
+        Supplier.objects.create(name='Test Supplier #1', email='test@test.com', address='Test Address #1')
+        pk = Supplier.objects.values()[0].get('id')
+
+        SUPPLIER_DETAIL_URL = reverse('supplier:details', args=(pk,))
+        res = self.client.get(SUPPLIER_DETAIL_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        
+    def test_update_supplier_successful(self):
+        Supplier.objects.create(name='Test Supplier #1', email='test@test.com', address='Test Address #1')
+        pk = Supplier.objects.values()[0].get('id')
+
+        payload = {
+            # 'name': 'testtt12312321t',
+            'name': 'good lord'
+        }
+        SUPPLIER_DETAIL_EDIT_URL = reverse('supplier:edit', args=(pk,))
+        res = self.client.patch(SUPPLIER_DETAIL_EDIT_URL, payload)
+        
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_supplier_deleted_successfully(self):
+        Supplier.objects.create(name='Test Supplier #1', email='test@test.com', address='Test Address #1')
+        pk = Supplier.objects.values()[0].get('id')
+
+        SUPPLIER_DETAIL_DELETE_URL = reverse('supplier:delete', args=(pk,))
+        res = self.client.delete(SUPPLIER_DETAIL_DELETE_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
