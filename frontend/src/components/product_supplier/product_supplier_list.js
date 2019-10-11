@@ -28,8 +28,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function createData(id, product_category, name, description, unit_price, quantity) {
-  return { id, product_category, name, description, unit_price, quantity };
+function createData(id, product_category, name, date_to_supply, price, quantity_supply) {
+  return { id, product_category, name, date_to_supply, price, quantity_supply };
 }
 
 const rows = [
@@ -62,7 +62,7 @@ export default function ProductSupplierList(props) {
   }
 
   let fetchProduct = () => {
-    axios.get(`${API_URL}/product/product_supplier/list/`)
+    axios.get(`${API_URL}/product/list/`)
       .then(function (response) {
         // handle success
         console.log(response)
@@ -156,9 +156,9 @@ export default function ProductSupplierList(props) {
                 <></>
                 <TableCell align="right">{product.filter(prodItem => row.product_category_id === prodItem.id)[0] !== undefined ? product.filter(prodItem => row.product_category_id === prodItem.id)[0].name : 'placeholder' }</TableCell>
                 <TableCell align="right">{supplier.filter(prodItem => row.product_category_id === prodItem.id)[0] !== undefined ? supplier.filter(prodItem => row.product_category_id === prodItem.id)[0].name : 'placeholder' }</TableCell>
-                <TableCell align="right">{row.description}</TableCell>
-                <TableCell align="right">{row.unit_price}</TableCell>
-                <TableCell align="right">{row.quantity}</TableCell>
+                <TableCell align="right">{row.date_to_supply}</TableCell>
+                <TableCell align="right">{row.price}</TableCell>
+                <TableCell align="right">{row.quantity_supply}</TableCell>
                 <TableCell align="right"><DeleteForeverIcon onClick={() => deleteItem(row.id)}/></TableCell>
               </TableRow>
           ))}

@@ -14,7 +14,7 @@ import axios from 'axios';
 
 
 import InputLabel from '@material-ui/core/InputLabel';
-// import DateFnsUtils from '@date-io/date-fns';
+import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
@@ -54,6 +54,13 @@ export default function ProductSupplierManagement(props) {
 
   const [product, setProduct] = React.useState([])
   const [supplier, setSupplier] = React.useState([])
+
+  const [selectedDate, setSelectedDate] = React.useState(new Date('2014-08-18T21:11:54'));
+
+  const handleDateChange = date => {
+    // setSelectedDate(date);
+    setValues({...values, date_to_supply: date})
+  };
 
   const {id} = useParams();
 
@@ -173,7 +180,24 @@ export default function ProductSupplierManagement(props) {
             return <MenuItem value={item.id}>{item.name}</MenuItem>
           })}
         </Select>
-      <TextField
+
+        
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <KeyboardDatePicker
+            fullWidth
+            margin="normal"
+            id="date-picker-dialog"
+            label="Date picker dialog"
+            format="MM/dd/yyyy"
+            value={selectedDate}
+            onChange={handleDateChange}
+            KeyboardButtonProps={{
+              'aria-label': 'change date',
+            }}
+          />
+        </MuiPickersUtilsProvider>
+        
+      {/* <TextField
         id="standard-full-width"
         label="Date"
         style={{ margin: 8 }}
@@ -186,7 +210,8 @@ export default function ProductSupplierManagement(props) {
         InputLabelProps={{
           shrink: true,
         }}
-      />
+      /> */}
+
       <TextField
         id="standard-full-width"
         label="Unit Price"
