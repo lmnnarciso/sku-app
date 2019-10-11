@@ -1,29 +1,8 @@
 import React from 'react';
 import { login } from '../utils/utility.js';
 
-// const SignIn = (props) => {
-
-//     const handleLogin = () => {
-//         login();
-//         props.history.push('/dashboard');
-//     }
-
-//     return (
-//         <div>
-//             <h1>Sign in</h1>
-
-//             <button onClick={() => handleLogin()}>Click here to log in</button>
-//         </div>
-//     );
-// };
-
-// export default SignIn;
-
 const Login = (props) => {
-
-  // const response = await fetch('http://127.0.0.1:8000/api/product/list/');
-  // const myJson = await response.json();
-  // console.log('dead');
+  
   const handleLogin = () => {
       login();
       props.history.push('/dashboard');

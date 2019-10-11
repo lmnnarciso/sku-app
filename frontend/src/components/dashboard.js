@@ -1,6 +1,6 @@
 import React from 'react';
 import {logout, isLogin} from '../utils/utility'
-
+import axios from 'axios'
 import { Link } from 'react-router-dom';
 
 
@@ -11,6 +11,16 @@ class Dashboard  extends React.Component{
         this.state = {
             isLogin: isLogin()
         }
+    }
+
+    fetchData = () => {
+        axios.get('http://127.0.0.1:8000/api/product/list/')
+        .then((res) => {
+            console.log(res)
+        })
+        .catch((err) => {
+            console.log(err)
+        })
     }
     handleLogout = () => {
         logout();
@@ -35,6 +45,9 @@ class Dashboard  extends React.Component{
         );
     }
     
+    componentDidMount(){
+        this.fetchData()
+    }
 };
 
 export default Dashboard;
