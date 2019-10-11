@@ -1,2 +1,26 @@
-# recipe-app-api
-Recipe App API source code
+# sku-app
+
+To run:
+1. docker-compose build
+2. docker-compose up
+3. Go to your localhost:3000
+
+Done:
+1. CRUD for Product Category(front-end)
+2. CRUD for Supplier(front-end)
+3. CRUD for Product(front-end)
+4. CRUD for Product Supplier(front-end)
+5. CRUD for Product Category(back-end)
+6. CRUD for Supplier(back-end)
+7. CRUD for Product(back-end)
+8. CRUD for Product Supplier(back-end)
+8. CRUD for Users
+
+To do:
+1. Field validation
+2. User authentication
+3. User roles
+4. Automated database populating
+5. Automated superuser creation
+6. Refactor to follow DjangoRestFramework best practice
+7. Refactor front-end code for reusable components
